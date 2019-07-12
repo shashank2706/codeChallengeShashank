@@ -1,3 +1,5 @@
+require("gsap");
+import {TweenLite} from "gsap";
 import {StageConfig} from "./StageConfig";
 import {LayerDictionary} from "./LayerDictionary";
 /**
