@@ -18,6 +18,9 @@ require("sat");
 
 let stagemanager = new StageManager(document.body, new BasicStageConfig());
 
+/**
+ * Assets list adding in preload
+ */
 let assets: IAssetsDictionary = {
     "coin2": "animations/coin2.png",
     "coin3": "animations/coin3.png",
@@ -28,6 +31,9 @@ let assets: IAssetsDictionary = {
     "bwNextLvl": "animations/bw-nextlvl.json"
 };
 
+/**
+ * Initialize Model here
+ */
 let model = new Model();
 
 //Entry point for your application. Just instantiate yor main class here.

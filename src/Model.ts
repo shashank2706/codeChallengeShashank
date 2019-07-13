@@ -8,10 +8,29 @@ import particles = require('pixi-particles');
 */
 export class Model {
 
-    private totalBet: number = 10;
-    private currentWinAmt: number = 960;
+    /**
+     * Total bet amount
+     */
+    private totalBet: number = 10; // Change this value if you need to play on another bet
+
+    /**
+     * Current win amount
+     */
+    private currentWinAmt: number = 960; // Change this value if you need to play only big win|mega win|super mega win|no big win celebration
+
+    /**
+     * Currency symbol
+     */
     private currency: string = "$";
+    
+    /**
+     * Is big win running or not
+     */
     private isBigWinRunning: boolean = false;
+    
+    /**
+     * Emitter data for particle animation using in big win celebration
+     */
     private emitterData: particles.EmitterConfig = {
         
         scale: {
@@ -88,42 +107,82 @@ export class Model {
     };
 
 
+    /**
+     * Set total bet amount
+     * @param value {number}
+     */
     public setTotalBet(value: number): void {
         this.totalBet = value;
     }
 
+    /**
+     * Get total bet amount
+     * @returns {number}
+     */
     public getTotalBet(): number {
         return this.totalBet;
     }
 
+    /**
+     * Set current win amount
+     * @param value {number}
+     */
     public setCurrentWinAmt(value: number): void {
         this.currentWinAmt = value;
     }
 
+    /**
+     * Get current win amount
+     * @returns {number}
+     */
     public getCurrentWinAmt(): number {
         return this.currentWinAmt;
     }
 
+    /**
+     * Set currency symbol
+     * @param value {string}
+     */
     public setCurrency(value: string): void {
         this.currency = value;
     }
 
+    /**
+     * Get currency symbol
+     * @returns {string}
+     */
     public getCurrency(): string {
         return this.currency;
     }
 
+    /**
+     * Set is big win running true|false
+     * @param value {boolean}
+     */
     public setIsBigWinRunning(value: boolean): void {
         this.isBigWinRunning = value;
     }
 
+    /**
+     * Get is big win running true|false
+     * @returns {boolean}
+     */
     public getIsBigWinRunning(): boolean {
         return this.isBigWinRunning;
     }
 
+    /**
+     * Set emitter data for particle emitter
+     * @param value {particles.EmitterConfig}
+     */
     public setEmitterData(value: particles.EmitterConfig): void {
         this.emitterData = value;
     }
 
+    /**
+     * Get emitter data for particle emitter
+     * @returns {particles.EmitterConfig}
+     */
     public getEmitterData(): particles.EmitterConfig {
         return this.emitterData;
     }
