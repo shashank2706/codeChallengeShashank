@@ -28,14 +28,15 @@ export class Example extends Application {
     private bwIntro: PIXI.extras.AnimatedSprite;
     private bwNextLvl: PIXI.extras.AnimatedSprite;
     private tickerValue: PIXI.Text;
+    private emitter: particles.Emitter;
 
-    private static _gameText = {
+    private _gameText = {
         BIG_WIN_TEXT: "BIG WIN",
         MEGA_WIN_TEXT: "MEGA WIN",
         SUPER_MEGA_WIN_TEXT: "SUPER MEGA WIN"
     }
 
-    private static _constants = {
+    private _constants = {
         BigWinState: "bigWin",
         MegaWinState: "megaWin",
         SuperMegaWinState: "superMegaWin",
@@ -79,7 +80,7 @@ export class Example extends Application {
         this.subscribeEvents();
         this.initTickerText();
         this.initializeBigWin();
-        if (this.model.getCurrentWinAmt() >= Example._constants.BigWinMultiplier * this.model.getTotalBet()) {
+        if (this.model.getCurrentWinAmt() >= this._constants.BigWinMultiplier * this.model.getTotalBet()) {
             this.showBigWin();
         }
     }
@@ -106,7 +107,7 @@ export class Example extends Application {
         this._foregroundLayer.addChild(this.bgContainer);
 
 
-        this.bgText = new PIXI.Text(Example._gameText.BIG_WIN_TEXT, bgTextStyle);
+        this.bgText = new PIXI.Text(this._gameText.BIG_WIN_TEXT, bgTextStyle);
         this.bgText.anchor.set(0.5, 0.5);
         this.bgText.position.set(this._stageWidth * 0.5, this._stageHeight * 0.5 - 210);
         this.bgContainer.addChild(this.bgText);
@@ -137,9 +138,9 @@ export class Example extends Application {
 
     private playBigWinIntroAnim(): void {
         if (this.tickupLevel === 1) {
-            this.nextTickUpState = Example._constants.CompleteState;
+            this.nextTickUpState = this._constants.CompleteState;
         } else {
-            this.nextTickUpState = Example._constants.MegaWinState;
+            this.nextTickUpState = this._constants.MegaWinState;
         }
         this.bgContainer.visible = false;
         this.bwNextLvl.visible = false;
@@ -182,7 +183,7 @@ export class Example extends Application {
             x: 1.1, y: 1.1, ease: Linear.easeInOut, onComplete: () => {
                 this.bgMeterTextTween = TweenMax.to(this.bgMeterText.scale, 0.15, {
                     x: 1, y: 1, ease: Linear.easeInOut, onComplete: () => {
-                        this.tickupTween = TweenMax.to(this.tickerValue, Example._constants.BigWinTickUpTime, {
+                        this.tickupTween = TweenMax.to(this.tickerValue, this._constants.BigWinTickUpTime, {
                             text: this.bigWinAmt, ease: Linear.easeInOut, onUpdate: () => {
                                 this.bgMeterText.text = this.model.getCurrency() + (Number(this.tickerValue.text) / 100).toFixed(2);
                             }, onComplete: () => {
@@ -198,13 +199,13 @@ export class Example extends Application {
 
     private startMegaWin(): void {
         if (this.tickupLevel === 2) {
-            this.nextTickUpState = Example._constants.CompleteState;
+            this.nextTickUpState = this._constants.CompleteState;
         } else {
-            this.nextTickUpState = Example._constants.SuperMegaWinState;
+            this.nextTickUpState = this._constants.SuperMegaWinState;
         }
         this.bgTextTween = TweenMax.to(this.bgText.scale, 0.15, {
             x: 0.9, y: 0.9, ease: Linear.easeInOut, onComplete: () => {
-                this.bgText.text = Example._gameText.MEGA_WIN_TEXT;
+                this.bgText.text = this._gameText.MEGA_WIN_TEXT;
                 this.bgTextTween = TweenMax.to(this.bgText.scale, 0.15, {
                     x: 1.2, y: 1.2, ease: Linear.easeInOut, onComplete: () => {
                         this.bgTextTween = TweenMax.to(this.bgText.scale, 0.15, {
@@ -221,7 +222,7 @@ export class Example extends Application {
                     x: 1.1, y: 1.1, ease: Linear.easeInOut, onComplete: () => {
                         this.bgMeterTextTween = TweenMax.to(this.bgMeterText.scale, 0.15, {
                             x: 1, y: 1, ease: Linear.easeInOut, onComplete: () => {
-                                this.tickupTween = TweenMax.to(this.tickerValue, Example._constants.MegaWinTickUpTime, {
+                                this.tickupTween = TweenMax.to(this.tickerValue, this._constants.MegaWinTickUpTime, {
                                     text: this.megaWinAmt, ease: Linear.easeInOut, onUpdate: () => {
                                         this.bgMeterText.text = this.model.getCurrency() + (Number(this.tickerValue.text) / 100).toFixed(2);
                                     }, onComplete: () => {
@@ -239,10 +240,10 @@ export class Example extends Application {
     }
 
     private startSuperMegaWin(): void {
-        this.nextTickUpState = Example._constants.CompleteState;
+        this.nextTickUpState = this._constants.CompleteState;
         this.bgTextTween = TweenMax.to(this.bgText.scale, 0.15, {
             x: 0.9, y: 0.9, ease: Linear.easeInOut, onComplete: () => {
-                this.bgText.text = Example._gameText.SUPER_MEGA_WIN_TEXT;
+                this.bgText.text = this._gameText.SUPER_MEGA_WIN_TEXT;
                 this.bgTextTween = TweenMax.to(this.bgText.scale, 0.15, {
                     x: 1.2, y: 1.2, ease: Linear.easeInOut, onComplete: () => {
                         this.bgTextTween = TweenMax.to(this.bgText.scale, 0.15, {
@@ -259,7 +260,7 @@ export class Example extends Application {
                     x: 1.1, y: 1.1, ease: Linear.easeInOut, onComplete: () => {
                         this.bgMeterTextTween = TweenMax.to(this.bgMeterText.scale, 0.15, {
                             x: 1, y: 1, ease: Linear.easeInOut, onComplete: () => {
-                                this.tickupTween = TweenMax.to(this.tickerValue, Example._constants.SuperMegaWinTickUpTime, {
+                                this.tickupTween = TweenMax.to(this.tickerValue, this._constants.SuperMegaWinTickUpTime, {
                                     text: this.superMegaWinAmt, ease: Linear.easeInOut, onUpdate: () => {
                                         this.bgMeterText.text = this.model.getCurrency() + (Number(this.tickerValue.text) / 100).toFixed(2);
                                     }, onComplete: () => {
@@ -281,6 +282,8 @@ export class Example extends Application {
         this.bgMeterText.text = this.model.getCurrency() + (this.amountInTickup / 100).toFixed(2);
         this.model.setIsBigWinRunning(false);
         this.hideBigWin();
+        this.emitter.destroy();
+		this.emitter = null;
     }
 
     /**
@@ -289,17 +292,17 @@ export class Example extends Application {
     */
     public getTickupAndAmountLevel(): number {
         let totalBet: number = this.model.getTotalBet();
-        if (this.amountInTickup > Example._constants.SuperMegaWinMultiplier * totalBet) {
-            this.bigWinAmt = Example._constants.BigWinMultiplier * totalBet;
-            this.megaWinAmt = Example._constants.MegaWinMultiplier * totalBet;
+        if (this.amountInTickup > this._constants.SuperMegaWinMultiplier * totalBet) {
+            this.bigWinAmt = this._constants.BigWinMultiplier * totalBet;
+            this.megaWinAmt = this._constants.MegaWinMultiplier * totalBet;
             this.superMegaWinAmt = this.amountInTickup;
             return 3;
-        } else if (this.amountInTickup > Example._constants.MegaWinMultiplier * totalBet) {
-            this.bigWinAmt = Example._constants.BigWinMultiplier * totalBet;
+        } else if (this.amountInTickup > this._constants.MegaWinMultiplier * totalBet) {
+            this.bigWinAmt = this._constants.BigWinMultiplier * totalBet;
             this.megaWinAmt = this.amountInTickup;
             this.superMegaWinAmt = 0;
             return 2;
-        } else if (this.amountInTickup >= Example._constants.BigWinMultiplier * totalBet) {
+        } else if (this.amountInTickup >= this._constants.BigWinMultiplier * totalBet) {
             this.bigWinAmt = this.amountInTickup;
             this.megaWinAmt = 0;
             this.superMegaWinAmt = 0;
@@ -317,23 +320,23 @@ export class Example extends Application {
     */
     public updateBigwinTickup(): void {
         switch (this.nextTickUpState) {
-            case Example._constants.BigWinState:
+            case this._constants.BigWinState:
                 this.playBigWinIntroAnim();
                 break;
-            case Example._constants.MegaWinState:
+            case this._constants.MegaWinState:
                 this.startMegaWin();
                 break;
-            case Example._constants.SuperMegaWinState:
+            case this._constants.SuperMegaWinState:
                 this.startSuperMegaWin();
                 break;
-            case Example._constants.CompleteState:
+            case this._constants.CompleteState:
                 this.bigWinCompleteState();
                 break;
         }
     }
 
     private showBigWin(): void {
-        this.nextTickUpState = Example._constants.BigWinState;
+        this.nextTickUpState = this._constants.BigWinState;
         this.amountInTickup = this.model.getCurrentWinAmt();
         this.tickupLevel = this.getTickupAndAmountLevel();
         this.bgMeterText.text = this.model.getCurrency() + "0.00";
@@ -349,106 +352,24 @@ export class Example extends Application {
     }
 
     private abortBigWin(): void {
-        this.nextTickUpState = Example._constants.CompleteState;
+        this.nextTickUpState = this._constants.CompleteState;
         this.tickupTween.kill();
         this.bgTextTween.kill();
         this.bgMeterTextTween.kill();
         this.stopBigWinIntroAnim();
         this.stopBigWinNextLvlAnim();
         if (this.tickupLevel === 3) {
-            this.bgText.text = Example._gameText.SUPER_MEGA_WIN_TEXT;
+            this.bgText.text = this._gameText.SUPER_MEGA_WIN_TEXT;
         } else if (this.tickupLevel === 2) {
-            this.bgText.text = Example._gameText.MEGA_WIN_TEXT;
+            this.bgText.text = this._gameText.MEGA_WIN_TEXT;
         } else if (this.tickupLevel === 1) {
-            this.bgText.text = Example._gameText.BIG_WIN_TEXT;
+            this.bgText.text = this._gameText.BIG_WIN_TEXT;
         }
         this.updateBigwinTickup();
     }
 
     private bigWinCelebration(): void {
-        const emitterData: particles.EmitterConfig = {
-            alpha: {
-                list: [
-                    {
-                        value: 0.8,
-                        time: 0
-                    },
-                    {
-                        value: 0.1,
-                        time: 1
-                    }
-                ],
-                isStepped: false
-            },
-            scale: {
-                list: [
-                    {
-                        value: 1,
-                        time: 0
-                    },
-                    {
-                        value: 0.3,
-                        time: 1
-                    }
-                ],
-                isStepped: false
-            },
-            color: {
-                list: [
-                    {
-                        value: "fb1010",
-                        time: 0
-                    },
-                    {
-                        value: "f5b830",
-                        time: 1
-                    }
-                ],
-                isStepped: false
-            },
-            speed: {
-                list: [
-                    {
-                        value: 200,
-                        time: 0
-                    },
-                    {
-                        value: 100,
-                        time: 1
-                    }
-                ],
-                isStepped: false
-            },
-            startRotation: {
-                min: 0,
-                max: 360
-            },
-            rotationSpeed: {
-                min: 0,
-                max: 0
-            },
-            lifetime: {
-                min: 0.5,
-                max: 0.5
-            },
-            frequency: 0.008,
-            spawnChance: 1,
-            particlesPerWave: 1,
-            emitterLifetime: 0.31,
-            maxParticles: 1000,
-            pos: {
-                x: 0,
-                y: 0
-            },
-            addAtBack: false,
-            spawnType: "circle",
-            spawnCircle: {
-                x: 0,
-                y: 0,
-                r: 10
-            }
-        };
-        const emitter: particles.Emitter = new particles.Emitter(
+        this.emitter = new particles.Emitter(
             this._foregroundLayer,
             [
                 this.getTexture("coin2"),
@@ -457,9 +378,28 @@ export class Example extends Application {
                 this.getTexture("coin5"),
                 this.getTexture("diamond")
             ],
-            emitterData
+            this.model.getEmitterData()
         );
-        emitter.emit = true;
+
+        // Calculate the current time
+        let elapsed = Date.now();
+        let updateId;
+
+		// Update function every frame
+		let update = () => {
+
+			// Update the next frame
+			updateId = requestAnimationFrame(update);
+
+			let now = Date.now();
+			if (this.emitter)
+				this.emitter.update((now - elapsed) * 0.001);
+
+			elapsed = now;
+
+		};
+        this.emitter.emit = true;
+        update();
 
     }
 }
